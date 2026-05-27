@@ -1,5 +1,8 @@
 package com.jethop;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,6 +25,11 @@ public class JetHop extends Pane {
     double velocityY = 0;
     final double GRAVITY = 0.5;
     final double JUMP_STRENGTH = -8;
+    ArrayList<Pipe> Pipes;
+    AnimationTimer gameLoop;
+    Random random = new Random();
+    int frameCount = 0;
+    final int PIPE_SPEED = 3;
 
     public JetHop() {
         canvas = new Canvas(boardWidth, boardHeight);
@@ -34,6 +42,7 @@ public class JetHop extends Pane {
 
         // avatar and pipe variable will go here
         avatar = new Avatar(avatarImg);
+        pipes = new ArrayList<>();
     }
 
     public void render() {
@@ -43,12 +52,12 @@ public class JetHop extends Pane {
     }
 
     public void updateAvatar() {
-         if (gameOver) return; 
+        if (gameOver)
+            return;
 
         velocityY += GRAVITY;
         avatar.y += velocityY;
 
-        
         if (avatar.y < 0) {
             avatar.y = 0;
             velocityY = 0;
@@ -59,13 +68,46 @@ public class JetHop extends Pane {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.SPACE) {
                 if (gameOver) {
-                    restartGame(); 
-                }
-                    else {
+                    restartGame();
+                } else {
                     velocityY = JUMP_STRENGTH;
                 }
             }
         });
+    }
+
+    public void startGameLoop() {
+        gameLoop = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateAvatar(); // Member 2
+                spawnAndMovePipes(); // Member 3
+                // checkCollisions(); // Member 4
+                render(); // Member 1
+            }
+        };
+
+        gameLoop.start();
+    }
+
+    public void spawnAndMovePipes() {
+        if (gameOver)
+            return;
+        frameCount++;
+        if (frameCount % 100 == 0) {
+            double randomY = random.nextInt(300) + 100;
+            pipes.add(new Pipe(boardWidth, 0, 60, randomY, pipeImg));
+            pipes.add(new Pipe(boardWidth, randomY + 150, 60, boardHeight -
+                    (randomY + 150), pipeImg));
+        }
+        for (int i = 0; i < pipes.size(); i++) {
+            Pipe p = pipes.get(i);
+            p.x -= PIPE_SPEED;
+            if (p.x + p.width < 0) {
+                pipes.remove(i);
+                i--;
+            }
+        }
     }
 
     class Avatar {
@@ -78,5 +120,20 @@ public class JetHop extends Pane {
         Avatar(Image img) {
             this.img = img;
         }
+    }
+
+    class Pipe {
+        double x, y, width, height;
+        boolean passed = false;
+        Image img;
+
+        Pipe(double x, double y, double width, double height, Image img) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.img = img;
+        }
+
     }
 }
