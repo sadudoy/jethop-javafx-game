@@ -6,19 +6,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="bgpane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="bgpane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text fill="RED" layoutX="153.0" layoutY="82.0" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0" text="GAME OVER" textAlignment="CENTER" wrappingWidth="293.336669921875">
          <font>
             <Font name="Ebrima Bold" size="45.0" />
          </font>
       </Text>
-      <Button fx:id="retryButton" layoutX="200.0" layoutY="247.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="RETRY" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="200.0" layoutY="247.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="RETRY" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Ebrima Bold" size="25.0" />
          </font>
       </Button>
-      <Button fx:id="mainMenuButton" layoutX="200.0" layoutY="319.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-image-insets: 650;" text="MAIN MENU" textFill="WHITE">
+      <Button layoutX="200.0" layoutY="319.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-image-insets: 650;" text="MAIN MENU" textFill="WHITE">
          <font>
             <Font name="Ebrima Bold" size="25.0" />
          </font>
@@ -30,7 +30,7 @@
                   <Font name="Ebrima Bold" size="25.0" />
                </font>
             </Text>
-            <Text fx:id="highScoreValue" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0" textAlignment="CENTER" wrappingWidth="182.93670654296875">
+            <Text stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0" textAlignment="CENTER" wrappingWidth="182.93670654296875">
                <font>
                   <Font name="Ebrima Bold" size="25.0" />
                </font>
@@ -44,7 +44,7 @@
                   <Font name="Ebrima Bold" size="25.0" />
                </font>
             </Text>
-            <Text fx:id="finalScoreValue" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0" textAlignment="CENTER" wrappingWidth="182.93670654296875">
+            <Text stroke="WHITE" strokeType="OUTSIDE" strokeWidth="2.0" textAlignment="CENTER" wrappingWidth="182.93670654296875">
                <font>
                   <Font name="Ebrima Bold" size="25.0" />
                </font>
