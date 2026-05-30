@@ -1,5 +1,6 @@
 package com.jethop;
 
+import javafx.scene.control.Button;//added
 import java.util.ArrayList;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
@@ -15,6 +16,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class JetHop extends Pane {
+
+    boolean isPaused = false;// added
+    Button pauseButton;// added
+
     int boardWidth = 960;
     int boardHeight = 600;
 
@@ -41,10 +46,31 @@ public class JetHop extends Pane {
     Text scoreText = new Text();
 
     
+
+    pauseButton=new Button("Pause");    //pause button added
+
+    pauseButton.setLayoutX(10);pauseButton.setLayoutY(10);// pause button position set- TOP Left
+
+    pauseButton.setOnAction(e->
+    {
+        isPaused = !isPaused;
+
+        if (isPaused) {
+            pauseButton.setText("Resume");
+        } else {
+            pauseButton.setText("Pause");
+        }
+    });         
+    //  Pause Butoton Action Event added- toggles between pausing and resuming the game loop, and updates the button text accordingly.  
+
+    this.getChildren().addAll(canvas,scoreText,pauseButton);
+
+    
+
     public JetHop() {
         canvas = new Canvas(boardWidth, boardHeight);
         gc = canvas.getGraphicsContext2D();
-        this.getChildren().addAll(canvas , scoreText);
+        this.getChildren().addAll(canvas, scoreText);
 
         backgroundImg = new Image(getClass().getResource("/com/jethop/Images/BackgroundOne.png").toExternalForm());
         avatarImg = new Image(getClass().getResource("/com/jethop/Images/CharacterOne.png").toExternalForm());
@@ -53,7 +79,6 @@ public class JetHop extends Pane {
         avatar = new Avatar(avatarImg);
         pipes = new ArrayList<>();
     }
-    
 
     public void render() {
         gc.clearRect(0, 0, boardWidth, boardHeight);
@@ -68,7 +93,8 @@ public class JetHop extends Pane {
     }
 
     public void updateAvatar() {
-        if (gameOver) return;
+        if (gameOver)
+            return;
 
         velocityY += GRAVITY;
         avatar.y += velocityY;
@@ -79,30 +105,75 @@ public class JetHop extends Pane {
         }
     }
 
-    public void setupControls(Scene scene) {
-        scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.SPACE) {
-                if (gameOver) {
-                    restartGame();
-                } else {
-                    velocityY = JUMP_STRENGTH;
-                }
-            }
-        });
-    }
+    // public void setupControls(Scene scene) {
+    //     scene.setOnKeyPressed(e -> {
+    //         if (e.getCode() == KeyCode.SPACE) {
+    //             if (gameOver) {
+    //                 restartGame();
+    //             } else {
+    //                 velocityY = JUMP_STRENGTH;
+    //             }
+    //         }
+    //     });
+    // }
 
-    public void startGameLoop() {
-        gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                updateAvatar(); 
-                spawnAndMovePipes(); 
-                checkCollisions(); 
-                render(); 
+    // The setupControls method is responsible for handling user input. It listens for key presses and performs actions based on the key pressed. In this case, it checks for the spacebar to make the avatar jump and also checks for the 'P' key to toggle the pause state of the game. If the game is paused, it prevents any further actions until it is resumed.
+    public void setupControls(Scene scene) {
+    scene.setOnKeyPressed(e -> {
+
+        if (e.getCode() == KeyCode.P) {
+            isPaused = !isPaused;
+            pauseButton.setText(isPaused ? "Resume" : "Pause");
+            return;
+        }
+
+        if (isPaused) {
+            return;
+        }
+
+        if (e.getCode() == KeyCode.SPACE) {
+            if (gameOver) {
+                restartGame();
+            } else {
+                velocityY = JUMP_STRENGTH;
             }
-        };
-        gameLoop.start();
-    }
+        }
+    });
+}
+    // public void startGameLoop() {
+    //     gameLoop = new AnimationTimer() {
+    //         @Override
+    //         public void handle(long now) {
+    //             updateAvatar();
+    //             spawnAndMovePipes();
+    //             checkCollisions();
+    //             render();
+    //         }
+    //     };
+    //     gameLoop.start();
+    // }
+
+
+//Start GameLoop is responsible for the main game loop, which continuously updates the game state and renders the graphics. It uses an AnimationTimer to call the handle method repeatedly, allowing for smooth animations and real-time updates. The loop checks if the game is paused and, if so, it only renders the current state without updating the game logic. If the game is not paused, it updates the avatar's position, spawns and moves pipes, checks for collisions, and renders the updated game state on each frame.
+public void startGameLoop() {
+    gameLoop = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+
+            if (isPaused) {
+                render(); // keep screen visible
+                return;
+            }
+
+            updateAvatar();
+            spawnAndMovePipes();
+            checkCollisions();
+            render();
+        }
+    };
+
+    gameLoop.start();
+}
 
     public void restartGame() {
         avatar.y = 300;
@@ -117,35 +188,34 @@ public class JetHop extends Pane {
         if (gameOver)
             return;
 
-        
         if (avatar.y + avatar.height > boardHeight) {
             gameOver = true;
         }
 
         for (Pipe p : pipes) {
-            
+
             if (avatar.x < p.x + p.width && avatar.x + avatar.width > p.x &&
                     avatar.y < p.y + p.height && avatar.y + avatar.height > p.y) {
                 gameOver = true;
             }
 
-            
             if (!p.passed && avatar.x > p.x + p.width) {
                 p.passed = true;
                 score++;
-                scoreText.setText(""+score);
+                scoreText.setText("" + score);
             }
-            
+
         }
     }
 
     public void spawnAndMovePipes() {
-        if (gameOver) return;
+        if (gameOver)
+            return;
         frameCount++;
         if (frameCount % 100 == 0) {
             double randomY = random.nextInt(300) + 100;
             pipes.add(new Pipe(boardWidth, 0, 60, randomY, pipeImg));
-            pipes.add(new Pipe(boardWidth, randomY + 250 , 60, boardHeight -
+            pipes.add(new Pipe(boardWidth, randomY + 250, 60, boardHeight -
                     (randomY + 150), pipeImg));
         }
         for (int i = 0; i < pipes.size(); i++) {
