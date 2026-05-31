@@ -1,17 +1,17 @@
 package com.jethop;
 
+import javafx.scene.control.Button;//added
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+
 import java.util.ArrayList;
 import java.util.Random;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -22,6 +22,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class JetHop extends Pane {
+
+    boolean isPaused = false;// added
+    Button pauseButton;// added
+
     int boardWidth = 960;
     int boardHeight = 600;
 
@@ -62,11 +66,11 @@ public class JetHop extends Pane {
     ToggleGroup tgrpChar = new ToggleGroup();
     ToggleGroup tgrpScene = new ToggleGroup();
     ToggleGroup tgrpMode = new ToggleGroup();
+    
 
     public JetHop() {
         canvas = new Canvas(boardWidth, boardHeight);
         gc = canvas.getGraphicsContext2D();
-        this.getChildren().addAll(canvas, scoreText);
 
         backgroundImg = new Image(getClass().getResource("/com/jethop/Images/BackgroundOne.png").toExternalForm());
         avatarImg = new Image(getClass().getResource("/com/jethop/Images/CharacterOne.png").toExternalForm());
@@ -74,15 +78,51 @@ public class JetHop extends Pane {
 
         avatar = new Avatar(avatarImg);
         pipes = new ArrayList<>();
+
+        pauseButton=new Button("PAUSE");    //pause button added
+        pauseButton.setPrefSize(75, 32);
+
+       pauseButton.setStyle(
+            "-fx-background-color: rgba(128,128,128,0.7); " +
+            "-fx-text-fill: white; " +
+            "-fx-font-size: 12px; " +
+            "-fx-font-weight: bold; " +
+            "-fx-border-color: white; " +
+            "-fx-border-width: 2; " +
+            "-fx-background-radius: 6; " +
+            "-fx-border-radius: 6; "
+        );
+        pauseButton.setLayoutX(880 );pauseButton.setLayoutY(10);// pause button position set- TOP right
+
+        pauseButton.setOnAction(e->
+        {
+            isPaused = !isPaused;
+
+            if (isPaused) {
+                pauseButton.setText("RESUME");
+                this.requestFocus();
+            } else {
+                pauseButton.setText("PAUSE");
+                this.requestFocus();
+            }
+        });         
+        //  Pause Butoton Action Event added- toggles between pausing and resuming the game loop, and updates the button text accordingly.  
+
+        this.getChildren().addAll(canvas,scoreText,pauseButton);
     }
 
     @FXML
     private void startGameMethod(ActionEvent event) {
 
         JetHop game = new JetHop();
+
+        game.avatarImg = this.avatarImg;
+        game.backgroundImg = this.backgroundImg;
+        game.avatar.img = this.avatarImg;
+        game.PipeGap = this.PipeGap;
+
         Scene scene2 = new Scene(game, game.boardWidth, game.boardHeight);
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        game.PipeGap = this.PipeGap;
 
         stage.setScene(scene2);
         stage.show();
@@ -102,11 +142,33 @@ public class JetHop extends Pane {
     private void difficulty() {
         if (easy.isSelected()) PipeGap = 250;
         else if (medium.isSelected()) PipeGap = 200;
-        else if (hard.isSelected()) {
-            PipeGap = 150;
-            System.out.println("HARD SELECTED");
+        else if (hard.isSelected()) PipeGap = 150;
+        restartGame();
+    }
+
+   @FXML
+    private void ChooseChar() {
+        if(characterOneRadioButton.isSelected()) {
+            avatarImg = new Image(getClass().getResource("/com/jethop/Images/CharacterOne.png").toExternalForm());
+        } 
+        else if(characterTwoRadioButton.isSelected()) {
+            avatarImg = new Image(getClass().getResource("/com/jethop/Images/CharacterTwo.png").toExternalForm());
         }
 
+        if(avatar != null)
+            avatar.img = avatarImg;
+
+        restartGame();
+    }
+
+    @FXML
+    private void ChooseScene() {
+        if(sceneOneRadioButton.isSelected()) {
+            backgroundImg = new Image(getClass().getResource("/com/jethop/Images/BackgroundOne.png").toExternalForm());
+        } 
+        else if(sceneTwoRadioButton.isSelected()) {
+            backgroundImg = new Image(getClass().getResource("/com/jethop/Images/BackgroundTwo.png").toExternalForm());
+        }
         restartGame();
     }
 
@@ -118,7 +180,7 @@ public class JetHop extends Pane {
             gc.drawImage(p.img, p.x, p.y, p.width, p.height);
         }
         gc.setFill(Color.WHITE);
-        gc.setFont(Font.font("Areal", FontWeight.BOLD, 25));
+        gc.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         gc.fillText("" + score, 20, 40);
     }
 
@@ -135,30 +197,50 @@ public class JetHop extends Pane {
         }
     }
 
+    // The setupControls method is responsible for handling user input. It listens for key presses and performs actions based on the key pressed. In this case, it checks for the spacebar to make the avatar jump and also checks for the 'P' key to toggle the pause state of the game. If the game is paused, it prevents any further actions until it is resumed.
     public void setupControls(Scene scene) {
-        scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.SPACE) {
-                if (gameOver) {
-                    restartGame();
-                } else {
-                    velocityY = JUMP_STRENGTH;
-                }
-            }
-        });
-    }
+    scene.setOnKeyPressed(e -> {
 
-    public void startGameLoop() {
-        gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                updateAvatar();
-                spawnAndMovePipes();
-                checkCollisions();
-                render();
+        if (e.getCode() == KeyCode.ESCAPE) {
+            isPaused = !isPaused;
+            pauseButton.setText(isPaused ? "RESUME" : "PAUSE");
+            return;
+        }
+
+        if (isPaused) {
+            return;
+        }
+
+        if (e.getCode() == KeyCode.SPACE) {
+            if (gameOver) {
+                restartGame();
+            } else {
+                velocityY = JUMP_STRENGTH;
             }
-        };
-        gameLoop.start();
-    }
+        }
+    });
+}
+
+//Start GameLoop is responsible for the main game loop, which continuously updates the game state and renders the graphics. It uses an AnimationTimer to call the handle method repeatedly, allowing for smooth animations and real-time updates. The loop checks if the game is paused and, if so, it only renders the current state without updating the game logic. If the game is not paused, it updates the avatar's position, spawns and moves pipes, checks for collisions, and renders the updated game state on each frame.
+public void startGameLoop() {
+    gameLoop = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+
+            if (isPaused) {
+                render(); // keep screen visible
+                return;
+            }
+
+            updateAvatar();
+            spawnAndMovePipes();
+            checkCollisions();
+            render();
+        }
+    };
+
+    gameLoop.start();
+}
 
     public void restartGame() {
         avatar.y = 300;
