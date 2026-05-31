@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,11 +11,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="600.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jethop.JetHop">
    <children>
       <ImageView fitHeight="600.0" fitWidth="960.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
-            <Image url="@../../../java/com/jethop/Images/HomeScreenBackground.png" />
+            <Image url="@HomeScreenBackground.png" />
          </image>
       </ImageView>
       <AnchorPane layoutX="195.0" layoutY="110.0" prefHeight="400.0" prefWidth="576.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
@@ -26,7 +27,18 @@
             </Text>
             <HBox alignment="CENTER" layoutX="86.0" layoutY="96.0" spacing="15.0">
                <children>
-                  <RadioButton fx:id="easy" mnemonicParsing="false" style="-fx-background-color: #038c00; -fx-background-radius: 5;" text="EASY" textFill="WHITE">
+                  <RadioButton fx:id="easy" mnemonicParsing="false" onAction="#difficulty" style="-fx-background-color: #038c00; -fx-background-radius: 5;" text="EASY" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tgrpMode" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="medium" mnemonicParsing="false" onAction="#difficulty" style="-fx-background-color: #ffa100; -fx-background-radius: 5;" text="MEDIUM" textFill="WHITE" toggleGroup="$tgrpMode">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
@@ -34,15 +46,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </RadioButton>
-                  <RadioButton fx:id="medium" mnemonicParsing="false" style="-fx-background-color: #ffa100; -fx-background-radius: 5;" text="MEDIUM" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                  </RadioButton>
-                  <RadioButton fx:id="hard" mnemonicParsing="false" style="-fx-background-color: red; -fx-background-radius: 5;" text="HARD" textFill="WHITE">
+                  <RadioButton fx:id="hard" mnemonicParsing="false" onAction="#difficulty" style="-fx-background-color: red; -fx-background-radius: 5;" text="HARD" textFill="WHITE" toggleGroup="$tgrpMode">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
@@ -61,7 +65,7 @@
                <children>
                   <HBox alignment="CENTER" spacing="15.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
+                        <RadioButton fx:id="characterOneRadioButton" mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -71,12 +75,15 @@
                            <graphic>
                               <ImageView fitHeight="92.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../java/com/jethop/Images/CharacterOne.png" />
+                                    <Image url="@CharacterOne.png" />
                                  </image>
                               </ImageView>
                            </graphic>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="tgrpChar" />
+                           </toggleGroup>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
+                        <RadioButton fx:id="characterTwoRadioButton" mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -86,16 +93,19 @@
                            <graphic>
                               <ImageView fitHeight="95.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../java/com/jethop/Images/CharacterTwo.png" />
+                                    <Image url="@CharacterTwo.png" />
                                  </image>
                               </ImageView>
                            </graphic>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="trgpChar" />
+                           </toggleGroup>
                         </RadioButton>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" spacing="15.0">
                      <children>
-                        <RadioButton mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
+                        <RadioButton fx:id="sceneOneRadioButton" mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -105,12 +115,15 @@
                            <graphic>
                               <ImageView fx:id="sceneOne" fitHeight="73.0" fitWidth="109.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../java/com/jethop/Images/BackgroundOne.png" />
+                                    <Image url="@BackgroundOne.png" />
                                  </image>
                               </ImageView>
                            </graphic>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="trgpScene" />
+                           </toggleGroup>
                         </RadioButton>
-                        <RadioButton mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE">
+                        <RadioButton fx:id="sceneTwoRadioButton" mnemonicParsing="false" style="-fx-background-radius: 5;" textFill="WHITE" toggleGroup="$trgpScene">
                            <font>
                               <Font name="System Bold" size="22.0" />
                            </font>
@@ -120,7 +133,7 @@
                            <graphic>
                               <ImageView fx:id="sceneTwo" fitHeight="70.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../java/com/jethop/Images/BackgroundTwo.png" />
+                                    <Image url="@BackgroundTwo.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -141,12 +154,12 @@
             </Text>
             <HBox layoutX="53.0" layoutY="313.0" spacing="30.0">
                <children>
-                  <Button fx:id="startGameButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="START GAME" textFill="WHITE">
+                  <Button fx:id="startGameButton" mnemonicParsing="false" onAction="#startGameMethod" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="START GAME" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
                   </Button>
-                  <Button fx:id="exitButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="EXIT" textFill="WHITE">
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitGame" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="EXIT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>

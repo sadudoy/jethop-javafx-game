@@ -2,10 +2,16 @@ package com.jethop;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -13,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class JetHop extends Pane {
     int boardWidth = 960;
@@ -40,11 +47,26 @@ public class JetHop extends Pane {
     int score = 0;
     Text scoreText = new Text();
 
-    
+    int PipeGap = 350;
+
+    @FXML Button startGameButton;
+    @FXML Button exitButton;
+    @FXML RadioButton characterOneRadioButton;
+    @FXML RadioButton characterTwoRadioButton;
+    @FXML RadioButton sceneOneRadioButton;
+    @FXML RadioButton sceneTwoRadioButton;
+    @FXML RadioButton easy;
+    @FXML RadioButton medium;
+    @FXML RadioButton hard;
+
+    ToggleGroup tgrpChar = new ToggleGroup();
+    ToggleGroup tgrpScene = new ToggleGroup();
+    ToggleGroup tgrpMode = new ToggleGroup();
+
     public JetHop() {
         canvas = new Canvas(boardWidth, boardHeight);
         gc = canvas.getGraphicsContext2D();
-        this.getChildren().addAll(canvas , scoreText);
+        this.getChildren().addAll(canvas, scoreText);
 
         backgroundImg = new Image(getClass().getResource("/com/jethop/Images/BackgroundOne.png").toExternalForm());
         avatarImg = new Image(getClass().getResource("/com/jethop/Images/CharacterOne.png").toExternalForm());
@@ -53,7 +75,40 @@ public class JetHop extends Pane {
         avatar = new Avatar(avatarImg);
         pipes = new ArrayList<>();
     }
-    
+
+    @FXML
+    private void startGameMethod(ActionEvent event) {
+
+        JetHop game = new JetHop();
+        Scene scene2 = new Scene(game, game.boardWidth, game.boardHeight);
+        Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        game.PipeGap = this.PipeGap;
+
+        stage.setScene(scene2);
+        stage.show();
+
+        game.setupControls(scene2);
+        game.requestFocus();
+        game.startGameLoop();
+    }
+
+    @FXML
+    private void exitGame(ActionEvent event) {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void difficulty() {
+        if (easy.isSelected()) PipeGap = 250;
+        else if (medium.isSelected()) PipeGap = 200;
+        else if (hard.isSelected()) {
+            PipeGap = 150;
+            System.out.println("HARD SELECTED");
+        }
+
+        restartGame();
+    }
 
     public void render() {
         gc.clearRect(0, 0, boardWidth, boardHeight);
@@ -68,7 +123,8 @@ public class JetHop extends Pane {
     }
 
     public void updateAvatar() {
-        if (gameOver) return;
+        if (gameOver)
+            return;
 
         velocityY += GRAVITY;
         avatar.y += velocityY;
@@ -95,10 +151,10 @@ public class JetHop extends Pane {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateAvatar(); 
-                spawnAndMovePipes(); 
-                checkCollisions(); 
-                render(); 
+                updateAvatar();
+                spawnAndMovePipes();
+                checkCollisions();
+                render();
             }
         };
         gameLoop.start();
@@ -117,36 +173,35 @@ public class JetHop extends Pane {
         if (gameOver)
             return;
 
-        
         if (avatar.y + avatar.height > boardHeight) {
             gameOver = true;
         }
 
         for (Pipe p : pipes) {
-            
+
             if (avatar.x < p.x + p.width && avatar.x + avatar.width > p.x &&
                     avatar.y < p.y + p.height && avatar.y + avatar.height > p.y) {
                 gameOver = true;
             }
 
-            
             if (!p.passed && avatar.x > p.x + p.width) {
                 p.passed = true;
                 score++;
-                scoreText.setText(""+score);
+                scoreText.setText("" + score);
             }
-            
+
         }
     }
 
     public void spawnAndMovePipes() {
-        if (gameOver) return;
+        if (gameOver)
+            return;
         frameCount++;
         if (frameCount % 100 == 0) {
             double randomY = random.nextInt(300) + 100;
             pipes.add(new Pipe(boardWidth, 0, 60, randomY, pipeImg));
-            pipes.add(new Pipe(boardWidth, randomY + 250 , 60, boardHeight -
-                    (randomY + 150), pipeImg));
+            pipes.add(new Pipe(boardWidth, randomY + PipeGap, 60, boardHeight -
+                    (randomY + PipeGap), pipeImg));
         }
         for (int i = 0; i < pipes.size(); i++) {
             Pipe p = pipes.get(i);
