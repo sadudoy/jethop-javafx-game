@@ -20,11 +20,6 @@
       </ImageView>
       <AnchorPane layoutX="195.0" layoutY="110.0" prefHeight="400.0" prefWidth="576.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
          <children>
-            <Text fill="WHITE" layoutX="178.0" layoutY="67.0" stroke="BLACK" strokeType="OUTSIDE" text="High Score">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Text>
             <HBox alignment="CENTER" layoutX="86.0" layoutY="96.0" spacing="15.0">
                <children>
                   <RadioButton fx:id="easy" mnemonicParsing="false" onAction="#difficulty" style="-fx-background-color: #038c00; -fx-background-radius: 5;" text="EASY" textFill="WHITE">
@@ -161,6 +156,20 @@
                         <Font name="System Bold" size="25.0" />
                      </font>
                   </Button>
+               </children>
+            </HBox>
+            <HBox layoutX="213.0" layoutY="24.0" spacing="10.0">
+               <children>
+                  <Text fill="WHITE" stroke="BLACK" strokeType="OUTSIDE" text="High Score">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="mainMenuHighScore" fill="WHITE" stroke="BLACK" strokeType="OUTSIDE">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Text>
                </children>
             </HBox>
          </children>
