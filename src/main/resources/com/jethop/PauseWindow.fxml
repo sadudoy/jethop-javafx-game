@@ -5,19 +5,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="bgpane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="bgpane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6f4268cc; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 10; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jethop.JetHop">
    <children>
       <Text fill="WHITE" layoutX="195.0" layoutY="105.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="2.0" text="PAUSED" textAlignment="CENTER" wrappingWidth="210.13665771484375">
          <font>
             <Font name="Ebrima Bold" size="45.0" />
          </font>
       </Text>
-      <Button fx:id="resumeButton" layoutX="200.0" layoutY="156.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="RESUME" textAlignment="CENTER" textFill="WHITE">
+      <Button fx:id="pauseButton" layoutX="200.0" layoutY="156.0" mnemonicParsing="false" onAction="#resumeAction" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="RESUME" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Ebrima Bold" size="25.0" />
          </font>
       </Button>
-      <Button fx:id="mainMenuButton" layoutX="200.0" layoutY="248.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-image-insets: 650;" text="MAIN MENU">
+      <Button fx:id="mainMenuButton" layoutX="200.0" layoutY="248.0" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-image-insets: 650;" text="MAIN MENU" textFill="WHITE">
          <font>
             <Font name="Ebrima Bold" size="25.0" />
          </font>
