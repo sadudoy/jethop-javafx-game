@@ -1,10 +1,39 @@
-# JETHOP - A FlappyBird Style JavaFX Game
+<p align="center">
+  <img src="screenshots/JETHOP.png" alt="JETHOP Logo" width="250">
+</p>
+
+<h1 align="center">JETHOP</h1>
+
+<p align="center">
+  A FlappyBird Style JavaFX Game built with JavaFX
+</p>
+
 
 ## Overview
 
 JETHOP is a 2D arcade-style game developed using Java and JavaFX. The player controls a character that must jump through moving obstacles while avoiding collisions. The objective is to survive as long as possible and achieve the highest score.
 
 The game includes multiple character selections, background themes, difficulty levels, pause functionality, score tracking, and a game-over system.
+
+---
+
+## Screenshots
+
+### Home Screen
+
+![Home Screen](screenshots/main-menu.png)
+
+### Gameplay
+
+![Gameplay](screenshots/gameplay.png)
+
+### Pause Menu
+
+![Pause Menu](screenshots/pause-screen.png)
+
+### Game Over Screen
+
+![Game Over Screen](screenshots/game-over.png)
 
 ---
 
@@ -66,20 +95,29 @@ The game includes multiple character selections, background themes, difficulty l
 
 ```text
 src/
-└── com/
-    └── jethop/
-        ├── App.java
-        ├── JetHop.java
-        ├── HomeScreenWindow.fxml
-        ├── PauseWindow.fxml
-        ├── GameOverWindow.fxml
-        └── Images/
-            ├── JETHOP.png
-            ├── CharacterOne.png
-            ├── CharacterTwo.png
-            ├── BackgroundOne.png
-            ├── BackgroundTwo.png
-            └── Pipe.png
+└── main/
+    ├── java/
+    │   ├── module-info.java
+    │   └── com/
+    │       └── jethop/
+    │           ├── App.java
+    │           ├── JetHop.java
+    │           └── Images/
+    │               ├── JETHOP.png
+    │               └── Pipe.png
+    │
+    └── resources/
+        └── com/
+            └── jethop/
+                ├── BackgroundOne.png
+                ├── BackgroundTwo.png
+                ├── CharacterOne.png
+                ├── CharacterTwo.png
+                ├── HomeScreenBackground.png
+                ├── HomeScreenWindow.fxml
+                ├── PauseWindow.fxml
+                └── GameOverWindow.fxml
+
 ```
 
 ---
@@ -153,9 +191,9 @@ App.java
 
 ---
 
-## Author
+## Authors
 
-**SAD IBNA FORID**
+**Sad Ibna Forid**
 * Student ID: 0802510205101020
 
 **Sohana Sinthia Rahman**
