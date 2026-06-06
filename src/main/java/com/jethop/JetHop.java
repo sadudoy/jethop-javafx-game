@@ -47,33 +47,49 @@ public class JetHop extends Pane {
     AnimationTimer gameLoop;
     Random random = new Random();
     int frameCount = 0;
-    final int PIPE_SPEED = 3;
 
     boolean gameOver = false;
-    boolean gameOverPopupShown = false; 
-    Stage pauseStage; 
-    Stage gameOverStage; 
+    boolean gameOverPopupShown = false;
+    Stage pauseStage;
+    Stage gameOverStage;
     int score = 0;
     static int highScore = 0;
     Text scoreText = new Text();
 
     int PipeGap = 350;
+    int PIPE_SPEED = 3;
+    int PIPE_SPAWN_RATE = 100;
 
-    @FXML Button startGameButton;
-    @FXML Button exitButton;
-    @FXML Button mainMenuButton;
-    @FXML Button retryButton;
-    @FXML Button pauseButton;
-    @FXML RadioButton characterOneRadioButton;
-    @FXML RadioButton characterTwoRadioButton;
-    @FXML RadioButton sceneOneRadioButton;
-    @FXML RadioButton sceneTwoRadioButton;
-    @FXML RadioButton easy;
-    @FXML RadioButton medium;
-    @FXML RadioButton hard;
-    @FXML Text gameHighScore;
-    @FXML Text gameScore;
-    @FXML Text mainMenuHighScore;
+    @FXML
+    Button startGameButton;
+    @FXML
+    Button exitButton;
+    @FXML
+    Button mainMenuButton;
+    @FXML
+    Button retryButton;
+    @FXML
+    Button pauseButton;
+    @FXML
+    RadioButton characterOneRadioButton;
+    @FXML
+    RadioButton characterTwoRadioButton;
+    @FXML
+    RadioButton sceneOneRadioButton;
+    @FXML
+    RadioButton sceneTwoRadioButton;
+    @FXML
+    RadioButton easy;
+    @FXML
+    RadioButton medium;
+    @FXML
+    RadioButton hard;
+    @FXML
+    Text gameHighScore;
+    @FXML
+    Text gameScore;
+    @FXML
+    Text mainMenuHighScore;
 
     ToggleGroup tgrpChar = new ToggleGroup();
     ToggleGroup tgrpScene = new ToggleGroup();
@@ -90,7 +106,7 @@ public class JetHop extends Pane {
         avatar = new Avatar(avatarImg);
         pipes = new ArrayList<>();
 
-        pauseButton = new Button("PAUSE"); 
+        pauseButton = new Button("PAUSE");
         pauseButton.setPrefSize(75, 32);
 
         pauseButton.setStyle(
@@ -141,7 +157,7 @@ public class JetHop extends Pane {
 
                 popupScene.setOnKeyPressed(e -> {
                     if (e.getCode() == KeyCode.ESCAPE) {
-                        pauseStage.hide(); 
+                        pauseStage.hide();
                     }
                 });
 
@@ -168,7 +184,7 @@ public class JetHop extends Pane {
 
     @FXML
     public void initialize() {
-    
+
         if (mainMenuHighScore != null) {
             mainMenuHighScore.setText(String.valueOf(highScore));
         }
@@ -236,12 +252,19 @@ public class JetHop extends Pane {
 
     @FXML
     private void difficulty() {
-        if (easy.isSelected())
+        if (easy.isSelected()) {
             PipeGap = 250;
-        else if (medium.isSelected())
+            PIPE_SPEED = 2;
+            PIPE_SPAWN_RATE = 120;
+        } else if (medium.isSelected()) {
             PipeGap = 200;
-        else if (hard.isSelected())
+            PIPE_SPEED = 3;
+            PIPE_SPAWN_RATE = 100;
+        } else if (hard.isSelected()) {
             PipeGap = 150;
+            PIPE_SPEED = 5;
+            PIPE_SPAWN_RATE = 80;
+        }
         restartGame();
     }
 
@@ -279,7 +302,7 @@ public class JetHop extends Pane {
             JetHop originalGame = (JetHop) mainStage.getScene().getRoot();
 
             if (originalGame.gameLoop != null) {
-                originalGame.gameLoop.stop(); 
+                originalGame.gameLoop.stop();
             }
             originalGame.isPaused = true;
         }
@@ -357,7 +380,7 @@ public class JetHop extends Pane {
             public void handle(long now) {
 
                 if (isPaused) {
-                    render(); 
+                    render();
                     return;
                 }
 
@@ -383,7 +406,7 @@ public class JetHop extends Pane {
         score = 0;
         frameCount = 0;
         gameOver = false;
-        gameOverPopupShown = false; 
+        gameOverPopupShown = false;
         if (gameOverStage != null)
             gameOverStage.hide();
     }
@@ -419,7 +442,7 @@ public class JetHop extends Pane {
         if (gameOver)
             return;
         frameCount++;
-        if (frameCount % 100 == 0) {
+        if (frameCount % PIPE_SPAWN_RATE == 0) {
             double randomY = random.nextInt(300) + 100;
             pipes.add(new Pipe(boardWidth, 0, 60, randomY, pipeImg));
             pipes.add(new Pipe(boardWidth, randomY + PipeGap, 60, boardHeight -
