@@ -60,36 +60,21 @@ public class JetHop extends Pane {
     int PIPE_SPEED = 3;
     int PIPE_SPAWN_RATE = 100;
 
-    @FXML
-    Button startGameButton;
-    @FXML
-    Button exitButton;
-    @FXML
-    Button mainMenuButton;
-    @FXML
-    Button retryButton;
-    @FXML
-    Button pauseButton;
-    @FXML
-    RadioButton characterOneRadioButton;
-    @FXML
-    RadioButton characterTwoRadioButton;
-    @FXML
-    RadioButton sceneOneRadioButton;
-    @FXML
-    RadioButton sceneTwoRadioButton;
-    @FXML
-    RadioButton easy;
-    @FXML
-    RadioButton medium;
-    @FXML
-    RadioButton hard;
-    @FXML
-    Text gameHighScore;
-    @FXML
-    Text gameScore;
-    @FXML
-    Text mainMenuHighScore;
+    @FXML Button startGameButton;
+    @FXML Button exitButton;
+    @FXML Button mainMenuButton;
+    @FXML Button retryButton;
+    @FXML Button pauseButton;
+    @FXML RadioButton characterOneRadioButton;
+    @FXML RadioButton characterTwoRadioButton;
+    @FXML RadioButton sceneOneRadioButton;
+    @FXML RadioButton sceneTwoRadioButton;
+    @FXML RadioButton easy;
+    @FXML RadioButton medium;
+    @FXML RadioButton hard;
+    @FXML Text gameHighScore;
+    @FXML Text gameScore;
+    @FXML Text mainMenuHighScore;
 
     ToggleGroup tgrpChar = new ToggleGroup();
     ToggleGroup tgrpScene = new ToggleGroup();
@@ -232,6 +217,8 @@ public class JetHop extends Pane {
         game.backgroundImg = this.backgroundImg;
         game.avatar.img = this.avatarImg;
         game.PipeGap = this.PipeGap;
+        game.PIPE_SPEED = this.PIPE_SPEED;
+        game.PIPE_SPAWN_RATE = this.PIPE_SPAWN_RATE;
 
         Scene scene2 = new Scene(game, game.boardWidth, game.boardHeight);
         Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
