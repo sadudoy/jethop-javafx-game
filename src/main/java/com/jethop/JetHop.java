@@ -150,7 +150,7 @@ public class JetHop extends Pane {
                 pauseStage.initOwner(this.getScene().getWindow());
                 pauseStage.initModality(Modality.WINDOW_MODAL);
 
-                pauseStage.setOnHidden(event -> {
+                pauseStage.setOnHidden(event -> {                                                              
                     if (isPaused) {
                         isPaused = false;
                         pauseButton.setText("PAUSE");
@@ -401,18 +401,14 @@ public class JetHop extends Pane {
     public void checkCollisions() {
         if (gameOver)
             return;
-
         if (avatar.y + avatar.height > boardHeight) {
             gameOver = true;
         }
-
         for (Pipe p : pipes) {
-
             if (avatar.x < p.x + p.width && avatar.x + avatar.width > p.x &&
                     avatar.y < p.y + p.height && avatar.y + avatar.height > p.y) {
                 gameOver = true;
             }
-
             if (!p.passed && avatar.x > p.x + p.width) {
                 p.passed = true;
                 score++;
@@ -421,7 +417,6 @@ public class JetHop extends Pane {
                 }
                 scoreText.setText("" + score);
             }
-
         }
     }
 

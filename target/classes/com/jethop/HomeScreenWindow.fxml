@@ -18,7 +18,7 @@
             <Image url="@HomeScreenBackground.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="195.0" layoutY="110.0" prefHeight="400.0" prefWidth="576.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
+      <AnchorPane layoutX="200.0" layoutY="115.0" prefHeight="400.0" prefWidth="576.0" style="-fx-background-color: #6f426880; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: black;" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0">
          <children>
             <HBox alignment="CENTER" layoutX="86.0" layoutY="96.0" spacing="15.0">
                <children>
@@ -146,12 +146,12 @@
             </Text>
             <HBox layoutX="53.0" layoutY="313.0" spacing="30.0">
                <children>
-                  <Button fx:id="startGameButton" mnemonicParsing="false" onAction="#startGameMethod" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="START GAME" textFill="WHITE">
+                  <Button fx:id="startGameButton" mnemonicParsing="false" onAction="#startGameMethod" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #038c00; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-background-insets: 0;" text="START GAME" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
                   </Button>
-                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitGame" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5;" text="EXIT" textFill="WHITE">
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exitGame" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: red; -fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-background-insets: 0;" text="EXIT" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
@@ -174,10 +174,5 @@
             </HBox>
          </children>
       </AnchorPane>
-      <Text fill="WHITE" layoutX="370.0" layoutY="92.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="1.5" text="JETHOP">
-         <font>
-            <Font name="System Bold" size="65.0" />
-         </font>
-      </Text>
    </children>
 </AnchorPane>

@@ -156,7 +156,18 @@ src/
 
 ---
 
-## Running the Project
+
+
+## Download & Play (Windows)
+
+You do not need to install Java or a code editor to play the game! 
+
+1. Go to the **[Releases](https://github.com/sadudoy/jethop-javafx-game/releases)** section of this repository.
+2. Download the `JetHop-v1.0-Windows.zip` file under the Assets dropdown.
+3. Extract the downloaded ZIP folder to your computer.
+4. Double-click the `JetHop.exe` file to start playing immediately.
+
+## Running the Project [For Developers]
 
 ### Clone the repository
 
